@@ -1,0 +1,189 @@
+    body {
+        overflow: hidden;
+    }
+    
+    #trexlogo {
+        margin: 0;
+        position: absolute;
+        top: 0%;
+        bottom: 0%;
+        left: 1%;
+        right: 0%;
+    }
+
+   #dockerlogo {
+        margin: 0;
+        position: absolute;
+        top: 0%;
+        bottom: 0%;
+        left: 90%;
+        right: 0%;
+
+   }
+
+   #codetabs {
+        margin: 0;
+        position: absolute;
+        top: 10%;
+        bottom: 10%;
+        left: 0;
+        right: 60%;
+        font-size: 15px;
+        border-style: ridge;
+    }
+
+   #PCAP {
+        margin: 0;
+        position: absolute;
+        top: 7%;
+        bottom: 0%;
+        left: 0;
+        right: 0%;
+        font-size: 15px;
+        border-style: ridge;
+
+   }
+
+   #STREAMS {
+        margin: 0;
+        position: absolute;
+        top: 7%;
+        bottom: 0%;
+        left: 0;
+        right: 0%;
+        font-size: 15px;
+        border-style: ridge;
+
+   }
+
+    #editor {
+        visibility: hidden;
+        margin: 0;
+        position: absolute;
+        top: 10%;
+        bottom: 10%;
+        left: 0;
+        right: 60%;
+        border-style: ridge;
+    }
+
+	#status {
+		margin: 0;
+        position: absolute;
+        top: 90%;
+        bottom: 0%;
+        left: 0%;
+        right: 0%;
+        border-style: ridge;
+	}
+	
+    #outputtabs {
+        margin: 0;
+        position: absolute;
+        float: left;
+
+        top: 10%;
+        bottom: 10%;
+        left: 40%;
+        right: 0%;
+        font-size: 15px;
+        border-style: ridge;
+    }
+
+    #console {
+        margin: 0;
+        position: absolute;
+        float: left;
+
+        top: 5%;
+        bottom: 0%;
+        left: 0%;
+        right: 0%;
+        font-size: 15px;
+    }
+
+    #output {
+        margin: 0;
+        position: absolute;
+        float: left;
+
+        top: 5%;
+        bottom: 0%;
+        left: 0%;
+        right: 0%;
+        font-size: 15px;
+    }
+
+    #tcpdump {
+        margin: 0;
+        position: absolute;
+        float: left;
+
+        top: 5%;
+        bottom: 0%;
+        left: 0%;
+        right: 0%;
+        font-size: 15px;
+    }
+
+    #pcapcode {
+        display: none;
+    }
+
+    #streamscode {
+        display: none;
+    }
+
+     .terminal {
+        margin: 5px;
+        position: absolute;
+        float: left;
+
+        top: 0%;
+        bottom: 0%;
+        left: 0%;
+        right: 0%;
+
+        font-family: Consolas, monaco, monospace;
+        font-size: 15px;
+        overflow-y: hidden;
+    }
+    .terminal-cursor {
+        color: #000;
+        background: #f0f0f0;
+    }
+
+    .myMarker {
+        position:absolute;
+        background:rgba(100,200,100,0.5);
+        z-index:20
+    }
+
+/* Style buttons */
+.btn {
+    background-color: DodgerBlue; /* Blue background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 6px 25px; /* Some padding */
+    font-size: 16px; /* Set a font size */
+    cursor: pointer; /* Mouse pointer on hover */
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+    background-color: RoyalBlue;
+}
+
+.btn:active {
+    background-color: #3e8e41;
+    box-shadow: 0 1px #666;
+    transform: translateY(2px);
+}
+
+.btn:disabled {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+
+      

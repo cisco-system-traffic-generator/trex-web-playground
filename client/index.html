@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <script src ="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src ="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.3.1/ace.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.3.1/ext-language_tools.js"></script>
+
+  <script src="./term.js"></script>
+  
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  
+  
+  <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" type="text/css" href="./css/style.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+  <title>TRex On Docker</title>
+
+</head>
+<body>
+
+<div id="trexlogo">
+<img src="images/trex_logo.png" width = "10%" height = "10%">
+</div>
+
+<div id="dockerlogo">
+    <img src="images/docker_logo.jpg" width = "70%" height = "10%">
+</div>
+
+
+<div id="status">
+<button id = "runbutton" class="btn" style = "background-color: DodgerBlue" title= "Run"><i class="fa fa-play"></i></button>
+<button id = "stepbutton" class="btn" style = "background-color: LawnGreen " title = "Step"><i class="fa fa-arrow-down"></i></button>
+<button id = "stopbutton" class="btn" style = "background-color: FireBrick" title = "Stop"><i class="far fa-stop-circle"></i></button>
+</div>
+
+<div id="codetabs">
+    <ul>
+        <li><a href="#PCAP">PCAP</a>
+        </li>
+        <li><a href="#STREAMS">Streams</a>
+        </li>
+    </ul>
+    <div id="PCAP"></div>
+    <div id="STREAMS"></div>
+</div>
+<div id="codetabid"></div>
+
+
+<div id="outputtabs">
+    <ul>
+        <li><a href="#console">Console</a>
+        </li>
+        <li><a href="#output">Output</a>
+        </li>
+        <li><a href="#tcpdump">TCP Dump</a>
+        </li>
+    </ul>
+    <div id="console"></div>
+    <div id="output"></div>
+    <div id="tcpdump"></div>
+</div>
+<div id="outputabid"></div>
+
+
+
+<pre id="pcapcode">
+# get TRex APIs
+from trex_stl_lib.api import *
+
+c = STLClient(server = "127.0.0.1")
+c.connect()
+
+port_0 = 0
+port_1 = 1
+
+try:
+    c.reset(ports = [port_0, port_1])
+
+    # push local PCAP file 'http.pcap' over port_0 with IPG of 1 ms
+    c.push_pcap("/scratch/http.pcap", ports = port_0, ipg_usec = 1000)
+
+    # hold until traffic ends
+    c.wait_on_traffic()
+
+    # check out the stats
+    stats = c.get_stats()
+
+    # examine stats for port_0
+    print("port_0 stats:")
+    print(stats[port_0])
+
+    # examine stats for port_1
+    print("port_1 stats:")
+    print(stats[port_1])
+
+except STLError as e:
+    print(e)
+
+finally:
+
+    c.disconnect()
+</pre>
+
+
+<pre id="streamscode" style="visibility: hidden">
+# get TRex APIs
+from trex_stl_lib.api import *
+
+c = STLClient(server = "127.0.0.1")
+c.connect()
+
+port_0 = 0
+port_1 = 1
+
+try:
+    # create a base pkt
+    base_pkt = Ether()/IP(src="16.0.0.1",dst="48.0.0.1")/UDP(dport=12,sport=1025)
+
+    # later on we will use the packet builder to provide more properties
+    pkt = STLPktBuilder(base_pkt)
+
+    # create a stream with a rate of 1000 PPS and continuous
+    s1 = STLStream(packet = pkt, mode = STLTXCont(pps = 1000))
+
+    # prepare the ports
+    c.reset(ports = [port_0, port_1])
+
+    # add the streams
+    c.add_streams(s1, ports = port_0)
+
+    print("Starting Traffic for 10 seconds...")
+    # start traffic with limit of 10 seconds (otherwise it will continue forever)
+    c.start(ports = port_0, duration = 10)
+
+    # hold until traffic ends
+    c.wait_on_traffic()
+    print("Traffic Done !")
+
+except STLError as e:
+    print(e)
+
+finally:
+
+    c.disconnect()
+</pre>
+
+<script src="client.js"></script>
+
+<body onresize="on_window_resize()">
+
+
+
+
+</body>
+</html>
+
