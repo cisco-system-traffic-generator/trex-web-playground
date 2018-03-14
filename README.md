@@ -5,7 +5,7 @@ Have TRex running inside a container using your web browser.
 
 Provides a quick way to get a look-and-feel of what TRex is.
 
-image::https://trex-tgn.cisco.com/trex/doc/images/trexweb.jpg[title="",align="left",width=1000, link="http://trex-tgn.cisco.com/trex/doc/images/trexweb.jpg"]
+![alt text](https://trex-tgn.cisco.com/trex/doc/images/trexweb.jpg)
 
 
 ## Getting Started
