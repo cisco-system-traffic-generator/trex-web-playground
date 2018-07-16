@@ -4,7 +4,7 @@ function setup_tabs() {
         activate: function (event, ui) {
         }
     });
-    
+
     $("#outputtabs").tabs({
         activate: function (event, ui) {
             var active = $("#outputtabs").tabs('option', 'active')
@@ -16,7 +16,7 @@ function setup_tabs() {
                 document.querySelectorAll("a[href='#tcpdump']")[0].style.color = "black";
             }
         }
-    });    
+    });
 }
 
 function get_console_size() {
@@ -35,48 +35,44 @@ function on_window_resize() {
     client.terminals.tcpdump.resize(cols, rows);
 }
 
-function register_events() {
-    
-}
-
 
 function create_editors() {
-     // editors
-     ace.require("ace/ext/language_tools");
-     client.range = ace.require('ace/range').Range;
- 
-     client.editors = [];
+    // editors
+    ace.require("ace/ext/language_tools");
+    client.range = ace.require('ace/range').Range;
 
-     // pcap editor
-     client.editors.push(ace.edit("PCAP"));
- 
-     client.editors[0].setOptions({
-         enableBasicAutocompletion: true,
-         enableSnippets: true,
-         enableLiveAutocompletion: true
-         
-     });
-     client.editors[0].setShowPrintMargin(false);
-     client.editors[0].session.setMode("ace/mode/python");
-     client.editors[0].setValue(document.getElementById("pcapcode").innerHTML, -1);
- 
-     // streams editor
-     client.editors.push(ace.edit("STREAMS"));
- 
-     client.editors[1].setOptions({
-         enableBasicAutocompletion: true,
-         enableSnippets: true,
-         enableLiveAutocompletion: true
-         
-     });
-     client.editors[1].setShowPrintMargin(false);
-     client.editors[1].session.setMode("ace/mode/python");
-     client.editors[1].setValue(document.getElementById("streamscode").innerHTML, -1);
+    client.editors = [];
+
+    // pcap editor
+    client.editors.push(ace.edit("PCAP"));
+
+    client.editors[0].setOptions({
+        enableBasicAutocompletion: true,
+        enableSnippets: true,
+        enableLiveAutocompletion: true
+    });
+
+    client.editors[0].setShowPrintMargin(false);
+    client.editors[0].session.setMode("ace/mode/python");
+    client.editors[0].setValue(document.getElementById("pcapcode").innerHTML, -1);
+
+    // streams editor
+    client.editors.push(ace.edit("STREAMS"));
+
+    client.editors[1].setOptions({
+        enableBasicAutocompletion: true,
+        enableSnippets: true,
+        enableLiveAutocompletion: true
+    });
+
+    client.editors[1].setShowPrintMargin(false);
+    client.editors[1].session.setMode("ace/mode/python");
+    client.editors[1].setValue(document.getElementById("streamscode").innerHTML, -1);
 }
 
 
 function create_terminals() {
-    
+
     Terminal.colors[256] = '#ffffff';
     Terminal.colors[257] = '#000000';
 
@@ -121,7 +117,7 @@ function create_terminals() {
 
 function create_socket() {
     // Connect to the socket.io server
-    client.socket = io.connect('http://csi-trex-10:8080');
+    client.socket = io.connect(`http://csi-trex-10:${process.env.PORT}`);
 
     // disconnect
     client.socket.on("disconnect", function() {
@@ -156,7 +152,7 @@ function create_socket() {
         if ($("#outputtabs").tabs('option', 'active') != 2) {
             document.querySelectorAll("a[href='#tcpdump']")[0].style.color = "red";
         }
-        
+
     });
 }
 
@@ -196,15 +192,15 @@ function init() {
     create_socket();
     create_terminals();
     create_editors();
- 
-    
+
+
     client.terminals.console.write('Allocating TRex Docker container...\r\n\n');
     client.terminals.console.write('Starting TRex Server...\r\n\n');
 }
 
 function deinit() {
     client.terminals.console.destroy();
-    client.terminals.code.destroy();    
+    client.terminals.code.destroy();
 }
 
 client = {};
