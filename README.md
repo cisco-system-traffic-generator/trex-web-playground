@@ -10,7 +10,7 @@ Provides a quick way to get a look-and-feel of what TRex is.
 
 ## Getting Started ##
 
-TRex web playground is actually  a simple skeleton meant to be enhanced.
+TRex web playground is actually a simple skeleton meant to be enhanced.
 
 It consists of a node.js server and client static HTML file.
 
@@ -25,6 +25,11 @@ To get the server running you need:
 
 Assuming you have node.js and Docker, do...
 
+```
+$ docker pull trexcisco/trex-dev:2.36
+```
+
+And to install the JS dependancies...
 ```
 $ yarn install
 ```

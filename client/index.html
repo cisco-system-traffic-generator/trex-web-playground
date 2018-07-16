@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  
+
   <script src ="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src ="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js"></script>
@@ -10,11 +10,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.3.1/ext-language_tools.js"></script>
 
   <script src="./term.js"></script>
-  
+
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  
-  
+
+
   <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
   <link rel="stylesheet" type="text/css" href="./css/style.css">
   <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
@@ -25,26 +25,24 @@
 <body>
 
 <div id="trexlogo">
-<img src="images/trex_logo.png" width = "10%" height = "10%">
+<img src="images/trex_logo.png" height="10%">
 </div>
 
 <div id="dockerlogo">
-    <img src="images/docker_logo.jpg" width = "70%" height = "10%">
+    <img src="images/Docker-Logo.png" height="10%">
 </div>
 
 
 <div id="status">
-<button id = "runbutton" class="btn" style = "background-color: DodgerBlue" title= "Run"><i class="fa fa-play"></i></button>
-<button id = "stepbutton" class="btn" style = "background-color: LawnGreen " title = "Step"><i class="fa fa-arrow-down"></i></button>
-<button id = "stopbutton" class="btn" style = "background-color: FireBrick" title = "Stop"><i class="far fa-stop-circle"></i></button>
+<button id="runbutton" class="btn" style="background-color: DodgerBlue" title="Run"><i class="fa fa-play"></i></button>
+<button id="stepbutton" class="btn" style="background-color: LawnGreen" title="Step"><i class="fa fa-arrow-down"></i></button>
+<button id="stopbutton" class="btn" style="background-color: FireBrick" title="Stop"><i class="far fa-stop-circle"></i></button>
 </div>
 
 <div id="codetabs">
     <ul>
-        <li><a href="#PCAP">PCAP</a>
-        </li>
-        <li><a href="#STREAMS">Streams</a>
-        </li>
+        <li><a href="#PCAP">PCAP</a></li>
+        <li><a href="#STREAMS">Streams</a></li>
     </ul>
     <div id="PCAP"></div>
     <div id="STREAMS"></div>
@@ -152,11 +150,6 @@ finally:
 
 <script src="client.js"></script>
 
-<body onresize="on_window_resize()">
-
-
-
-
-</body>
+<!-- <body onresize="on_window_resize()"></body> -->
+<body></body>
 </html>
-

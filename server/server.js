@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express = require('express');
 const http = require('http');
 const fs = require('fs');
@@ -17,14 +16,14 @@ const app = express();
 app.use('/', express.static('client'));
 
 // Creating an HTTP server
-const server = http.createServer(app).listen(process.env.PORT);
+const server = http.createServer(app).listen(7171);
 
 const io = require('socket.io')(server);
 
-console.log(`Starting HTTP server on port ${process.env.PORT}...`);
+console.log('Starting HTTP server...');
 
 // When a new socket connects
-io.on('connection', socket=> {
+io.on('connection', function(socket) {
 
     socket.shortid = socket.id.substr(0, 8);
 
@@ -43,7 +42,7 @@ io.on('connection', socket=> {
         Binds: [`${path.resolve('shared')}:/shared`],
         //VolumeDriver : 'shared:/shared',
         CapAdd: ['ALL'],
-    }, (err, container)=> {
+    }, function (err, container) {
 
         if (err) {
             console.log(err);
@@ -54,7 +53,7 @@ io.on('connection', socket=> {
 
         console.log(`[${socket.shortid}] created container with ID: ${container.id}`);
 
-        socket.container.start((err, container)=> {
+        socket.container.start(function(err, container) {
 
             // Create terminal for console
             socket.term = pty.spawn('docker', ['exec', '-it', socket.container.id, '/etc/startup.sh'], {
@@ -62,17 +61,16 @@ io.on('connection', socket=> {
                 cols: 120,
                 rows: 40,
                 cwd: process.env.HOME,
-                env: process.env
+                env: process.env,
             });
 
             // Create terminal for code
-            //socket.code = pty.spawn('docker', ['exec', '-it', socket.container.id, 'bash', '-c', 'stty -echo;/etc/stl.sh'], {
+            // socket.code = pty.spawn('docker', ['exec', '-it', socket.container.id, 'bash', '-c', 'stty -echo;/etc/stl.sh'], {
             socket.code = pty.spawn('docker', ['exec', '-it', socket.container.id, '/etc/scripts/code.sh'], {
                 name: 'xterm-color',
                 cols: 120,
                 rows: 40,
             });
-
 
             socket.tcpdump = pty.spawn('docker', ['exec', '-it', socket.container.id, 'bash', '-c', '/etc/tcpdump -i veth0'], {
                 name: 'xterm-color',
@@ -80,10 +78,10 @@ io.on('connection', socket=> {
                 rows: 40,
             });
 
-            let tcp_dump_buffer = Buffer('');
+            let tcp_dump_buffer = Buffer.from('');
 
             // Listen on the terminal for output and send it to the client
-            socket.tcpdump.on('data', data=> {
+            socket.tcpdump.on('data', function(data) {
                 if (tcp_dump_buffer.length < 1024) {
                     tcp_dump_buffer += data;
                 }
@@ -92,7 +90,7 @@ io.on('connection', socket=> {
             function publishTCPDump() {
                 if (tcp_dump_buffer.length > 0) {
                     socket.emit('tcpdump-output', tcp_dump_buffer);
-                    tcp_dump_buffer = Buffer('');
+                    tcp_dump_buffer = Buffer.from('');
                 }
                 setTimeout(publishTCPDump, 500);
             }
@@ -100,27 +98,24 @@ io.on('connection', socket=> {
             setTimeout(publishTCPDump, 500);
 
             // Listen on the terminal for output and send it to the client
-            socket.term.on('data', data=> {
+            socket.term.on('data', function(data) {
                 //console.log('got output: ' + data);
                 socket.emit('console-output', data);
             });
 
-
-            socket.on('console-input', data=> {
+            socket.on('console-input', function(data) {
                 //console.log('got input: ' + data);
                 socket.term.write(data);
             });
 
-
-
             // Listen on the terminal for output and send it to the client
-            socket.code.on('data', data=> {
+            socket.code.on('data', function(data) {
                 //console.log('got output: ' + data);
                 socket.emit('code-run-output', data);
             });
 
-            socket.on('code-run-input', code=> {
-                if (code == "ESC") {
+            socket.on('code-run-input', function(code) {
+                if (code == 'ESC') {
                     socket.code.write(String.fromCharCode(3));
                     return;
                 }
@@ -131,14 +126,14 @@ io.on('connection', socket=> {
                 socket.code.write(`python /${tmpobj.name}\n`);
                 return;
             });
-
             // When socket disconnects, destroy the terminal
-            socket.on('disconnect', ()=> {
+            socket.on('disconnect', function() {
 
                 console.log(`[${socket.shortid}] disconnecting...`);
+
                 if (socket.container) {
                     console.log(`[${socket.shortid}] removing container: ${socket.container.id}`);
-                    socket.container.remove({force: true});
+                    socket.container.remove({ force: true });
                     socket.container = null;
                 }
 
@@ -159,7 +154,7 @@ io.on('connection', socket=> {
 });
 
 
-process.on('SIGINT', ()=> {
+process.on('SIGINT', function () {
 
     console.log('\n*** shutting down IO...\n');
     server.close();
