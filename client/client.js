@@ -185,7 +185,6 @@ function init() {
     create_terminals();
     create_editors();
 
-
     client.terminals.console.write('Allocating TRex Docker container...\r\n\n');
     client.terminals.console.write('Starting TRex Server...\r\n\n');
 }
