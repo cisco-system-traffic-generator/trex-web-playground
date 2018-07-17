@@ -1,38 +1,44 @@
-# TRex Web Playground
+# TRex Web Playground #
 
 
 Have TRex running inside a container using your web browser.
 
 Provides a quick way to get a look-and-feel of what TRex is.
 
-![alt text](https://trex-tgn.cisco.com/trex/doc/images/trexweb.jpg)
+![trex logo](https://i.imgur.com/gx0r5PS.png)
 
 
-## Getting Started
+## Getting Started ##
 
-TRex web playground is actually  a simple skeleton meant to be enhanced.
+TRex web playground is actually a simple skeleton meant to be enhanced.
 
 It consists of a node.js server and client static HTML file.
 
 
-### Prerequisites
+### Prerequisites ###
 
 To get the server running you need:
+* [Node.js](https://nodejs.org)
+* [Docker](https://docs.docker.com/install/)
 
+### Installing ###
 
-```
-Node.js
-Docker
-```
-
-### Installing
-
-Assuming you have node.js and Docker installed and ready, install the following Node packages
+Assuming you have node.js and Docker, do...
 
 ```
-npm install express pty tmp dockerode log-timestamp socket.io
+$ docker pull trexcisco/trex-dev:2.36
 ```
 
+And to install the JS dependancies...
+```
+$ yarn install
+```
+
+...or...
+
+```
+$ npm install
+```
 
 
 End with an example of getting some data out of the system or using it for a little demo
@@ -52,6 +58,4 @@ and Docker.
 It was created in a few days just to play with the possibilties.
 
 Thus, we encourge contributing to this project by someone who actually knows Javascript and node.js :)
-
-
 
